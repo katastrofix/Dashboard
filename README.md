@@ -1,0 +1,2 @@
+# Dashboard
+A dummy dashboard
