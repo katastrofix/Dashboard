@@ -1,0 +1,6 @@
+$namespace: 'dashb'; // change the 'mx' to 'xmx'. then <date-picker prefix-class="xmx" />
+
+$input-color: #FFFFFF;
+$input-border-color: #1BC5BD;
+$input-hover-border-color: #1BC5BD;
+@import '~vue2-datepicker/scss/index.scss';
