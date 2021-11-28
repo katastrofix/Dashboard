@@ -278,10 +278,10 @@ export default {
   },
   methods: {
     calculateProjectTotal:function (){
-      this.chartDataTransformedGateway.datasets[0].data.reduce((total, amount) => total += amount, 0).toFixed()
+      return this.chartDataTransformedGateway.datasets[0].data.reduce((total, amount) => total += amount, 0).toFixed()
     },
     calculateGatewayTotal:function (){
-      this.chartDataTransformedProject.datasets[0].data.reduce((total, amount) => total += amount, 0).toFixed()
+      return this.chartDataTransformedProject.datasets[0].data.reduce((total, amount) => total += amount, 0).toFixed()
     },
     getChartOptions:function (){
       //Return options on demand. This way we can bind the Vue context so can use the filters that are bound to the Vue instance
