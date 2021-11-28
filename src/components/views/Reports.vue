@@ -291,12 +291,26 @@ export default {
             legend: {
           display: false
         },
-
+        plugins: {
+          datalabels: {
+            formatter: function(value, context) {
+              // return context.chart.data.labels[context.dataIndex];
+              return ((value.toFixed()/context.dataset.data.reduce((total, amount) => total += amount, 0))*100).toFixed()+'%';
+            },
+            color: "white",
+            textAlign: "center",
+            font: {
+              weight: "bold",
+              size: 16
+            }
+          }
+        },
         tooltips: {
           callbacks: {
             label: function(currentEntry,context) {
               let currentIndex = currentEntry.index;
-              let label = `${context.labels[currentIndex] || ''}: ${this.$options.filters.numberWithCommasNoDecimals(context.datasets[0].data[currentIndex])} USD`;
+              let percentage = ((context.datasets[0].data[currentIndex]/context.datasets[0].data.reduce((total, amount) => total += amount, 0))*100).toFixed()
+              let label = `${context.labels[currentIndex] || ''}: ${this.$options.filters.numberWithCommasNoDecimals(context.datasets[0].data[currentIndex])} USD (${percentage}%)`;
               return label;
             }.bind(this)
           },
