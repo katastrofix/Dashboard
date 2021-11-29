@@ -6,24 +6,13 @@
         <span>Easily generate a report of your transactions</span>
       </div>
       <div id="reports-actions">
-        <dropdown :config="{
-          options:this.gateways,
-          defaultValue:'All Gateways',
-          value:'gatewayId',
-          text:'name'
-
-        }"
+        <dropdown :config="gatewaysDropdownConfig"
                   @optionChange="setSelectedGateway"
                   v-if="gateways.length >0">
 
         </dropdown>
 
-        <dropdown :config="{
-          options:this.projects,
-          defaultValue:'All projects',
-          value:'projectId',
-          text:'name'
-        }"
+        <dropdown :config="projectsDropdownConfig"
                   @optionChange="setSelectedProject"
                   v-if="projects.length >0">
 
@@ -200,6 +189,7 @@ export default {
   },
   data: () => {
     return {
+
       fromDate: null,
       toDate: null,
       selectedGateway: null,
@@ -211,6 +201,23 @@ export default {
     }
   },
   computed: {
+    projectsDropdownConfig: function() {
+      return {
+        options: this.projects,
+        defaultValue: 'All projects',
+        value: 'projectId',
+        text: 'name'
+      }
+    },
+    gatewaysDropdownConfig: function() {
+      return {
+        options: this.gateways,
+        defaultValue: 'All Gateways',
+        value: 'gatewayId',
+        text: 'name'
+
+      }
+    },
     projects: function () {
       return this.$store.state.projects
     },
@@ -277,25 +284,25 @@ export default {
     }
   },
   methods: {
-    calculateProjectTotal:function (){
+    calculateProjectTotal: function () {
       return this.chartDataTransformedGateway.datasets[0].data.reduce((total, amount) => total += amount, 0).toFixed()
     },
-    calculateGatewayTotal:function (){
+    calculateGatewayTotal: function () {
       return this.chartDataTransformedProject.datasets[0].data.reduce((total, amount) => total += amount, 0).toFixed()
     },
-    getChartOptions:function (){
+    getChartOptions: function () {
       //Return options on demand. This way we can bind the Vue context so can use the filters that are bound to the Vue instance
       return {
         responsive: true,
-            maintainAspectRatio: false,
-            legend: {
+        maintainAspectRatio: false,
+        legend: {
           display: false
         },
         plugins: {
           datalabels: {
-            formatter: function(value, context) {
+            formatter: function (value, context) {
               // return context.chart.data.labels[context.dataIndex];
-              return ((value.toFixed()/context.dataset.data.reduce((total, amount) => total += amount, 0))*100).toFixed()+'%';
+              return ((value.toFixed() / context.dataset.data.reduce((total, amount) => total += amount, 0)) * 100).toFixed() + '%';
             },
             color: "white",
             textAlign: "center",
@@ -307,20 +314,20 @@ export default {
         },
         tooltips: {
           callbacks: {
-            label: function(currentEntry,context) {
+            label: function (currentEntry, context) {
               let currentIndex = currentEntry.index;
-              let percentage = ((context.datasets[0].data[currentIndex]/context.datasets[0].data.reduce((total, amount) => total += amount, 0))*100).toFixed()
+              let percentage = ((context.datasets[0].data[currentIndex] / context.datasets[0].data.reduce((total, amount) => total += amount, 0)) * 100).toFixed()
               let label = `${context.labels[currentIndex] || ''}: ${this.$options.filters.numberWithCommasNoDecimals(context.datasets[0].data[currentIndex])} USD (${percentage}%)`;
               return label;
             }.bind(this)
           },
           backgroundColor: "#FAFAFA",
-              borderColor: "lightgreen",
-              borderWidth: 1,
-              titleFontColor: "black",
-              titleFontStyle: "bold",
-              displayColors: false,
-              bodyFontColor: "black"
+          borderColor: "lightgreen",
+          borderWidth: 1,
+          titleFontColor: "black",
+          titleFontStyle: "bold",
+          displayColors: false,
+          bodyFontColor: "black"
         }
       }
 
@@ -665,7 +672,7 @@ tr:nth-child(odd) {
 }
 
 .dashb-icon-calendar, .dashb-icon-clear {
-  top: 45%!important;
+  top: 45% !important;
 }
 
 .dashb-input {
